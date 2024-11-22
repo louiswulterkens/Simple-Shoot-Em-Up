@@ -5,7 +5,8 @@ class_name PlayerEntity
 @onready var health: HealthComponent = $HealthComponent
 @onready var invulnerability: InvulnerabilityComponent = $InvulnerabilityComponent
 @onready var weapon: WeaponComponent = $WeaponComponent
-@onready var upgrade_component: UpgradeComponent = $UpgradeComponent
+var intra: PackedScene = preload("res://Scenes/Upgrades/UpgradeComponent.tscn")
+var upgrade_component: UpgradeComponent = null
 
 # Constants
 const INITIAL_POSITION: Vector2 = Vector2(200, 400)
@@ -41,8 +42,11 @@ func _setup_signals() -> void:
 func _initialize() -> void:
     # Initialize node-dependent properties
     self.position = INITIAL_POSITION
+    self.upgrade_component = intra.instantiate()
+    self.add_child(upgrade_component)
 
     var collision_shape: CollisionShape2D = self.upgrade_component.active_collision_shape
+    
     self.add_child(collision_shape)
 
 
